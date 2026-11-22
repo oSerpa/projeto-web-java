@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Update</title>
+  <title>Alterar usuário</title>
 
   <!-- Custom fonts for this template-->
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -34,9 +34,9 @@
         <div class="col-lg-7">
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Crie uma conta</h1>
+              <h1 class="h4 text-gray-900 mb-4">Alterar usuário</h1>
             </div>
-            <form class="user" th:action="@{'/usuarios/alterar/' + ${user.id} }" method="post" onsubmit="alert('Cadastrado com sucesso')">
+            <form class="user" th:action="@{'/usuarios/alterar/' + ${user.id} }" method="post">
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                   <input type="text" name="name" th:value="${user.name}" class="form-control form-control-user" id="exampleFirstName"
@@ -59,22 +59,12 @@
 
               </div>
               <button type="submit" class="btn btn-primary btn-user btn-block">
-                Cadastrar
+                Salvar alterações
               </button>
-              <hr>
-              <a href="../home/index.html" class="btn btn-google btn-user btn-block">
-                <i class="fab fa-google fa-fw"></i> Register with Google
-              </a>
-              <a href="../home/index.html" class="btn btn-facebook btn-user btn-block">
-                <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-              </a>
             </form>
             <hr>
             <div class="text-center">
-              <a class="small" href="/forgot-password.html">Forgot Password?</a>
-            </div>
-            <div class="text-center">
-              <a class="small" href="../login/login.html">Already have an account? Login!</a>
+              <a class="small" href="/usuarios/listar">Voltar para a lista</a>
             </div>
           </div>
         </div>
