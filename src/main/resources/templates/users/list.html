@@ -6,6 +6,8 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Usuários</h1>
 
+                    <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -31,7 +33,7 @@
                                             <td th:text="${user.id}"></td>
                                             <td th:text="${user.name}"></td>
                                             <td th:text="${user.email}"></td>
-                                            <td th:text="${user.date}"></td>
+                                            <td th:text="${#temporals.format(user.date, 'dd/MM/yyyy')}"></td>
                                             <td th:text="${user.tel}"></td>
                                             <td class="text-center"> <a th:href="@{'/usuarios/' + ${user.id} }" class="btn btn-warning">Alterar</a> </td>
                                             <td class="text-center">
