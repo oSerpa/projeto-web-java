@@ -6,14 +6,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser
 class UserControllerTests {
 
     @Autowired
@@ -29,7 +32,7 @@ class UserControllerTests {
 
     @Test
     void cadastroValidoSalvaERedireciona() throws Exception {
-        mockMvc.perform(post("/usuarios/cadastrar")
+        mockMvc.perform(post("/usuarios/cadastrar").with(csrf())
                         .param("name", "Ana")
                         .param("email", "ana@email.com")
                         .param("tel", "(11) 99999-0000")
@@ -42,7 +45,7 @@ class UserControllerTests {
 
     @Test
     void cadastroInvalidoVoltaProFormularioComErros() throws Exception {
-        mockMvc.perform(post("/usuarios/cadastrar")
+        mockMvc.perform(post("/usuarios/cadastrar").with(csrf())
                         .param("name", "")
                         .param("email", "nao-e-email")
                         .param("tel", "abc")
