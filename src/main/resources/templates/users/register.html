@@ -34,37 +34,35 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Crie uma conta</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Cadastrar usuário</h1>
                             </div>
-                            <form class="user" action="/usuarios/cadastrar" method="post" onsubmit="alert('Cadastrado com sucesso')">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" name="name" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="Nome">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" name="tel" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Telefone">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email ">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12 mb-3 mb-sm-0">
-                                        <input type="date" name="date" class="form-control form-control-user"
-                                            id="exampleInputPassword">
-                                    </div>
-
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    Cadastrar
-                                </button>
-                            </form>
+                            <form class="user" th:action="@{/usuarios/cadastrar}" th:object="${user}" method="post" novalidate>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" th:field="*{name}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" placeholder="Nome">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+                <div class="col-sm-6">
+                <input type="tel" th:field="*{tel}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('tel')} ? 'is-invalid'" placeholder="Telefone">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="email" th:field="*{email}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" placeholder="Email">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+              </div>
+              <div class="form-group">
+                <label class="small text-gray-600 ml-3" for="date">Data de nascimento</label>
+                <input type="date" th:field="*{date}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'" placeholder="Data de nascimento">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-user btn-block">
+                Cadastrar
+              </button>
+            </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="/login">Already have an account? Login!</a>
+                                <a class="small" href="/usuarios/listar">Voltar para a lista</a>
                             </div>
                         </div>
                     </div>

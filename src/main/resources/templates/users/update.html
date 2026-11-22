@@ -36,27 +36,25 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4">Alterar usuário</h1>
             </div>
-            <form class="user" th:action="@{'/usuarios/alterar/' + ${user.id} }" method="post">
+            <form class="user" th:action="@{'/usuarios/alterar/' + ${user.id}}" th:object="${user}" method="post" novalidate>
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                  <input type="text" name="name" th:value="${user.name}" class="form-control form-control-user" id="exampleFirstName"
-                         placeholder="Nome">
+                <input type="text" th:field="*{name}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" placeholder="Nome">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
                 <div class="col-sm-6">
-                  <input type="text" name="tel" th:value="${user.tel}" class="form-control form-control-user" id="exampleLastName"
-                         placeholder="Telefone">
+                <input type="tel" th:field="*{tel}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('tel')} ? 'is-invalid'" placeholder="Telefone">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}"></div>
                 </div>
               </div>
               <div class="form-group">
-                <input type="email" th:value="${user.email}" name="email" class="form-control form-control-user" id="exampleInputEmail"
-                       placeholder="Email ">
+                <input type="email" th:field="*{email}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" placeholder="Email">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
               </div>
-              <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                  <input type="date" th:value="${user.date}" name="date" class="form-control form-control-user"
-                         id="exampleInputPassword">
-                </div>
-
+              <div class="form-group">
+                <label class="small text-gray-600 ml-3" for="date">Data de nascimento</label>
+                <input type="date" th:field="*{date}" class="form-control form-control-user" th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'" placeholder="Data de nascimento">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
               </div>
               <button type="submit" class="btn btn-primary btn-user btn-block">
                 Salvar alterações
