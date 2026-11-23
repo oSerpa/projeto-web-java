@@ -19,7 +19,8 @@ Começou como projeto da SENAI em 2023 e foi atualizado em 2026.
 - Java 17
 - Spring Boot 3.5 (Web, Data JPA, Validation, Security)
 - Thymeleaf com o template [SB Admin 2](https://github.com/StartBootstrap/startbootstrap-sb-admin-2) (licença MIT)
-- MySQL em produção e H2 em memória no desenvolvimento e nos testes
+- MySQL para rodar local, PostgreSQL em produção e H2 em memória no desenvolvimento e nos testes
+- Docker, com deploy no Render
 - Lombok
 - JUnit 5, MockMvc e Spring Security Test
 
@@ -60,6 +61,45 @@ DB_PASSWORD=sua_senha ./mvnw spring-boot:run
 As tabelas são criadas sozinhas na primeira execução. Depois é só abrir http://localhost:8080 e criar uma conta em "Criar uma conta".
 
 No Windows, use `mvnw.cmd` no lugar de `./mvnw`.
+
+## Publicar na internet (Render + Neon)
+
+O site roda no [Render](https://render.com) (plano gratuito de web service, via Docker) e o banco fica no [Neon](https://neon.com) (PostgreSQL gratuito). O banco gratuito do próprio Render é apagado depois de 30 dias, por isso o Neon.
+
+No plano gratuito do Render o site "dorme" depois de uns 15 minutos sem acesso, e o primeiro acesso depois disso demora perto de 1 minuto pra carregar.
+
+### 1. Criar o banco no Neon
+
+1. Crie uma conta em https://console.neon.tech (dá pra entrar com o GitHub).
+2. Crie um projeto. A região `AWS São Paulo (sa-east-1)` é a mais perto, mas qualquer uma funciona.
+3. Em "Connect", copie a connection string. Ela tem este formato:
+   `postgresql://USUARIO:SENHA@HOST/neondb?sslmode=require`
+4. Separe os pedaços. As três variáveis ficam assim:
+
+| Variável | Valor |
+| --- | --- |
+| `DB_URL` | `jdbc:postgresql://HOST/neondb?sslmode=require` |
+| `DB_USERNAME` | `USUARIO` |
+| `DB_PASSWORD` | `SENHA` |
+
+### 2. Criar o site no Render
+
+1. Crie uma conta em https://dashboard.render.com entrando com o GitHub.
+2. Clique em "New" > "Blueprint" e escolha o repositório `projeto-web-java`. O Render lê o arquivo `render.yaml`.
+3. Ele vai pedir `DB_URL`, `DB_USERNAME` e `DB_PASSWORD`. Cole os valores do passo anterior.
+4. Clique em "Apply". O primeiro build leva alguns minutos.
+5. Quando aparecer "Live", abra o link `https://crud-java-xxxx.onrender.com`, clique em "Criar uma conta" e entre.
+
+As tabelas são criadas sozinhas. A cada push na `main` o Render faz o deploy de novo.
+
+### Testar a imagem Docker no seu computador
+
+```bash
+docker build -t crud-java .
+docker run -p 8080:8080 -e DB_URL=jdbc:postgresql://HOST/neondb?sslmode=require -e DB_USERNAME=USUARIO -e DB_PASSWORD=SENHA crud-java
+```
+
+O perfil `prod` (arquivo `application-prod.properties`) é ativado pela imagem. Ele lê a porta da variável `PORT`, que o Render define sozinho.
 
 ## Testes
 
